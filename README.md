@@ -25,7 +25,7 @@ brand/BRANDKIT.md       The written brand kit
 assets/                 css, js, images (brand marks + app screenshots)
 tools/                  Optional builder — see "Editing" below
 CNAME .nojekyll         GitHub Pages
-firebase.json           Firebase Hosting headers, caching and redirects
+firebase.json .firebaserc  Firebase Hosting config and project link
 netlify.toml            Netlify / Cloudflare Pages headers and redirects
 robots.txt sitemap.xml  Search engines
 app-ads.txt             AdMob — needs your publisher ID, see below
@@ -62,49 +62,36 @@ Two hosts, one source of truth. The repository is
 
 | | Serves | Status |
 |---|---|---|
-| **Firebase Hosting** | `ampliply.com` | To set up — see below |
-| **GitHub Pages** | `kiranjadhav19.github.io/ampliply/` | Live, acts as the backup copy |
+| **Firebase Hosting** | <https://ampliply-website.web.app> | Live — project `ampliply-website`, Spark (free) plan |
+| **GitHub Pages** | <https://kiranjadhav19.github.io/ampliply/> | Live — automatic backup copy |
 
 GitHub Pages redeploys on every push to `main` and needs no attention. Firebase is a deliberate
-deploy, which is what gets you the CSP and cache headers in `firebase.json` — headers GitHub Pages
-cannot serve at all.
+deploy, and it is the one that serves the CSP, Permissions-Policy and cache headers from
+`firebase.json` — headers GitHub Pages cannot serve at all. `ampliply.com` is not pointed at
+either host yet; see the next section.
 
-### Setting up Firebase Hosting
-
-`firebase.json` is already written: it publishes the repository root, excludes `tools/`, the git
-directory and the host-specific files, sets the same security headers and asset caching as
-`netlify.toml`, and keeps the two `/privacy/` and `/apps/` redirects. `cleanUrls` is deliberately
-**off** so that `/privacy/unplug.html` stays exactly that on every host — those URLs are going into
-Play Console and should not start redirecting.
-
-Sign in to the Google account you want to own this, then:
+### Redeploying to Firebase
 
 ```bash
-npm install -g firebase-tools
+cd "/Users/admin/Documents/Development/Android Apps/ampliply.com" && firebase deploy --only hosting
 ```
+
+That is the whole loop. `.firebaserc` pins the project, and `firebase.json` publishes the
+repository root while excluding `tools/`, the git directory and the other hosts' config — 36 files
+in all. `cleanUrls` is deliberately **off** so `/privacy/unplug.html` stays exactly that on every
+host; those URLs go into Play Console and must not start redirecting.
+
+Roll back a bad deploy from the console under **Hosting → Release history**, or preview a change
+before it goes live with a temporary channel:
 
 ```bash
-firebase login
+firebase hosting:channel:deploy preview --expires 7d
 ```
 
-```bash
-firebase projects:create ampliply-site --display-name "Ampliply"
-```
+Everything stays on the free **Spark** plan; no billing account is attached. The quota is 10 GB of
+storage and **360 MB of transfer per day**, roughly 1,200 full page views. Worth watching, because
+Firebase serves an error page rather than throttling once a day's quota is gone.
 
-```bash
-cd "/Users/admin/Documents/Development/Android Apps/ampliply.com" && firebase use --add
-```
-
-That last one writes `.firebaserc` — pick the project and give it the alias `default`. Then deploy:
-
-```bash
-firebase deploy --only hosting
-```
-
-The site goes live at `ampliply-site.web.app` straight away. Everything stays on the free **Spark**
-plan; no billing account is needed. The free quota is 10 GB of storage and **360 MB of transfer per
-day**, roughly 1,200 full page views — worth keeping an eye on, because Firebase serves an error
-page rather than throttling once a day's quota is gone.
 
 ### Pointing ampliply.com at Firebase
 
