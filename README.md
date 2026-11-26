@@ -56,27 +56,56 @@ home page, and an entry in `sitemap.xml`.
 
 ## Hosting
 
-Any static host works. Three free options:
+Live on **GitHub Pages** from <https://github.com/kiranjadhav19/ampliply> — branch `main`, folder
+root. `CNAME` and `.nojekyll` are in the repository, so every push to `main` redeploys within a
+minute or two. Pages has already picked up `ampliply.com` as the custom domain.
 
-**GitHub Pages** — push this folder to a repository, then Settings → Pages → deploy from branch.
-`CNAME` and `.nojekyll` are already here. Add DNS at your registrar:
+### One thing left: DNS at GoDaddy
+
+`ampliply.com` still points at GoDaddy's parked-page servers, so the domain will not serve the site
+until the records change. In GoDaddy → **My Products → Domains → ampliply.com → DNS**:
+
+1. **Delete** the existing `A` record(s) for `@` (they point at `13.248.243.5` and
+   `76.223.105.230`) and any parking/forwarding entry for `@`.
+2. **Add four `A` records** for `@`, one per address:
 
 ```
 A     @    185.199.108.153
 A     @    185.199.109.153
 A     @    185.199.110.153
 A     @    185.199.111.153
-CNAME www  <your-github-username>.github.io
 ```
+
+3. **Replace** the `www` record with a `CNAME`:
+
+```
+CNAME www  kiranjadhav19.github.io
+```
+
+Leave `MX` records alone — those are email, and deleting them would break
+`support@ampliply.com` later.
+
+Propagation is usually minutes, occasionally a few hours. Check with:
+
+```
+dig +short ampliply.com A
+```
+
+When it returns the four `185.199.*` addresses, go to the repository's **Settings → Pages** and
+tick **Enforce HTTPS**. GitHub issues the Let's Encrypt certificate automatically once DNS
+resolves; the tickbox stays greyed out until then. Do not paste any URL into Play Console before
+`https://ampliply.com` loads.
+
+### Alternatives
 
 **Cloudflare Pages** — connect the repository, leave the build command empty, set the output
 directory to `/`. Add `ampliply.com` as a custom domain; Cloudflare handles the DNS and the
-certificate.
+certificate. Worth switching to if you also want Cloudflare Email Routing for
+`support@ampliply.com`.
 
 **Netlify** — drag this folder onto the Netlify dashboard, or connect the repository.
-`netlify.toml` already sets security headers, asset caching and two redirects.
-
-Whichever you pick, confirm HTTPS is on before you paste any URL into Play Console.
+`netlify.toml` already sets security headers, asset caching and two redirects. GitHub Pages
+ignores `netlify.toml`, so the headers in it apply only on Netlify or Cloudflare Pages.
 
 ## Before you go live
 
