@@ -1,0 +1,135 @@
+<section class="section page-head">
+  <div class="aura" aria-hidden="true"></div>
+  <div class="container">
+    <p class="crumbs"><a href="{{BASE}}index.html">Ampliply</a><span>/</span><a href="{{BASE}}privacy.html">Privacy</a><span>/</span>Unplug: Auto Offline</p>
+    <span class="eyebrow">App privacy supplement</span>
+    <h1>Privacy policy: Unplug: Auto Offline</h1>
+    <p class="lede measure">What this app stores, how its local VPN works and what it never does with your traffic.
+      It sits alongside the <a href="{{BASE}}privacy.html" style="color:var(--accent-text)">Ampliply master privacy
+      policy</a>, which covers advertising, your rights and everything common to our apps.</p>
+    <p class="dim">Last updated {{UPDATED}} &middot; Package <code>app.unplug.autooffline</code></p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container doc">
+    <aside class="toc" aria-label="On this page">
+      <p>On this page</p>
+      <ol>
+        <li><a href="#vpn">The VPN, in plain words</a></li>
+        <li><a href="#device">What is stored on your phone</a></li>
+        <li><a href="#apps-list">The installed apps list</a></li>
+        <li><a href="#permissions">Permissions</a></li>
+        <li><a href="#ads">Advertising</a></li>
+        <li><a href="#safety">Play Data safety</a></li>
+        <li><a href="#delete">Deleting your data</a></li>
+        <li><a href="#master">Master policy</a></li>
+      </ol>
+    </aside>
+
+    <div class="prose">
+      <div class="callout">
+        <p><strong>If you read one section, read the next one.</strong> Unplug uses Android&rsquo;s VPN feature, and you
+          are right to be careful about any app that does. It is a <em>local</em> VPN with no server behind it, and it
+          exists only to stop traffic leaving your phone &mdash; not to carry it somewhere.</p>
+      </div>
+
+      <h2 id="vpn">The VPN, in plain words</h2>
+      <p>Android does not allow an app to switch Wi&#8209;Fi or mobile data off. The only way to pause a phone&rsquo;s internet
+        from inside an app is to become the device&rsquo;s VPN and then not forward anything. That is exactly what Unplug
+        does, and nothing more.</p>
+      <ul>
+        <li>The VPN has <strong>no remote server and no endpoint</strong>. There is nowhere for traffic to go.</li>
+        <li>Packets that reach it are <strong>discarded on your device</strong>. They are not read, inspected, parsed,
+          logged, stored, modified, forwarded, proxied or shared with anyone, including us.</li>
+        <li>We never see your browsing, your DNS lookups, the apps you use or the sites you visit. Not in aggregate,
+          not anonymised, not at all &mdash; we have no mechanism that could receive them.</li>
+        <li>When you are offline, the only exception is any app you have explicitly added to <em>Always allowed
+          apps</em>, which Android then routes outside the VPN as normal.</li>
+        <li>Android shows a key icon in your status bar whenever any VPN is active. You will see it while Unplug is
+          holding your phone offline. That is Android telling you the truth, and we would rather you noticed it.</li>
+      </ul>
+      <p>Android permits only one active VPN at a time. If you start another VPN app, Android switches Unplug&rsquo;s
+        offline mode off, and Unplug tells you that is what happened.</p>
+
+      <h2 id="device">What is stored on your phone</h2>
+      <p>All of it is in the app&rsquo;s private storage, inside Android&rsquo;s per&#8209;app sandbox, and none of it is transmitted
+        anywhere.</p>
+      <table>
+        <thead><tr><th>What</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td>Whether Auto&#8209;Offline is on, and your chosen delay after locking</td><td>The core setting of the app</td></tr>
+          <tr><td>Whether to reconnect automatically when you unlock</td><td>Your preference</td></tr>
+          <tr><td>The package names of the apps you added to &ldquo;Always allowed apps&rdquo;</td><td>So those apps keep their connection while you are offline</td></tr>
+          <tr><td>Today&rsquo;s counters: time spent offline, and how many times you went online</td><td>The small stats shown on the home screen</td></tr>
+          <tr><td>Whether you have seen the introduction screens</td><td>So you are not shown them twice</td></tr>
+          <tr><td>Your advertising consent answer, where the consent form applies</td><td>Recorded by Google&rsquo;s User Messaging Platform so you are not asked repeatedly</td></tr>
+        </tbody>
+      </table>
+      <p>There is no history beyond the day&rsquo;s totals, no log of when you locked or unlocked your phone, and no record
+        of which notifications you missed.</p>
+
+      <h2 id="apps-list">The installed apps list</h2>
+      <p>When you open <strong>Always allowed apps</strong>, the app asks Android for the apps that appear in your
+        launcher so it can show you a list to choose from. This matters, so to be exact:</p>
+      <ul>
+        <li>The list is read <strong>only while that screen is open</strong>, and only to draw it.</li>
+        <li>It is <strong>not stored</strong> and <strong>not sent anywhere</strong>.</li>
+        <li>The only thing saved is the package names you deliberately tick, and they stay on your device.</li>
+      </ul>
+
+      <h2 id="permissions">Permissions and why each one exists</h2>
+      <table>
+        <thead><tr><th>Permission</th><th>Why the app needs it</th></tr></thead>
+        <tbody>
+          <tr><td><code>BIND_VPN_SERVICE</code> (Android&rsquo;s VPN consent)</td><td>The only way an app can pause internet access. You grant it in Android&rsquo;s own dialog, and you can revoke it at any time in system settings.</td></tr>
+          <tr><td><code>FOREGROUND_SERVICE</code>, <code>FOREGROUND_SERVICE_SPECIAL_USE</code> and <code>POST_NOTIFICATIONS</code></td><td>To keep running the watcher that notices when you lock and unlock the phone, and to show the single status notification Android requires for it</td></tr>
+          <tr><td>A <code>&lt;queries&gt;</code> declaration for launcher apps</td><td>To list your launcher apps on the &ldquo;Always allowed apps&rdquo; screen, as described above. The app deliberately does <em>not</em> request <code>QUERY_ALL_PACKAGES</code>, so it can only see apps with a launcher icon.</td></tr>
+          <tr><td><code>RECEIVE_BOOT_COMPLETED</code></td><td>So your setting survives a restart and the app does not silently stop working</td></tr>
+          <tr><td><code>INTERNET</code> / <code>ACCESS_NETWORK_STATE</code></td><td>To load ads, and to know the current connection state</td></tr>
+          <tr><td><code>AD_ID</code></td><td>Added by the Google Mobile Ads SDK so ads can be served and measured</td></tr>
+        </tbody>
+      </table>
+      <p>No location, no contacts, no messages, no call log, no camera, no microphone, no files.</p>
+
+      <h2 id="ads">Advertising in this app</h2>
+      <p>The free app shows a Google AdMob banner. The data Google processes for advertising is listed in the
+        <a href="{{BASE}}privacy.html#ads">master policy</a>, and in the EEA, UK and Switzerland the consent form
+        appears before any personalised advertising.</p>
+      <p>To change your answer later, open the app&rsquo;s menu and choose <strong>Ad privacy options</strong>.</p>
+      <p>One practical note: while your phone is offline, ads cannot load either. That is expected &mdash; the app works
+        the same way with or without them.</p>
+
+      <h2 id="safety">How this maps to the Google Play Data safety labels</h2>
+      <table>
+        <thead><tr><th>Data type</th><th>Collected</th><th>Shared</th><th>By whom, and why</th></tr></thead>
+        <tbody>
+          <tr><td>Device or other IDs (advertising ID)</td><td>Yes</td><td>Yes</td><td>Google AdMob &mdash; advertising, analytics, fraud prevention</td></tr>
+          <tr><td>App interactions (ad interactions)</td><td>Yes</td><td>Yes</td><td>Google AdMob &mdash; advertising, measurement</td></tr>
+          <tr><td>Diagnostics (ad SDK errors, performance)</td><td>Yes</td><td>Yes</td><td>Google AdMob &mdash; analytics</td></tr>
+          <tr><td>Approximate location (derived from IP)</td><td>Yes</td><td>Yes</td><td>Google AdMob &mdash; advertising</td></tr>
+          <tr><td>Your settings, allowed apps and daily counters</td><td>No</td><td>No</td><td>Stays on your device</td></tr>
+          <tr><td>Web browsing, app activity, message or traffic content</td><td>No</td><td>No</td><td>Never read by the app at all</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="delete">Deleting your data</h2>
+      <ul>
+        <li><strong>Stop the VPN:</strong> tap <em>Go online</em>, or switch Auto&#8209;Offline off. You can also revoke VPN
+          permission entirely in <strong>Android Settings &rarr; Network &amp; internet &rarr; VPN</strong>.</li>
+        <li><strong>Everything the app saved:</strong> uninstall it, or use <strong>Android Settings &rarr; Apps &rarr;
+          Unplug &rarr; Storage &rarr; Clear data</strong>.</li>
+        <li><strong>Advertising data held by Google:</strong> reset or delete your advertising ID in
+          <strong>Android Settings &rarr; Google &rarr; All services &rarr; Ads</strong>.</li>
+      </ul>
+
+      <h2 id="master">The rest of the policy</h2>
+      <p>Your rights, legal bases, retention periods, international transfers, children, security and contact details
+        are all in the <a href="{{BASE}}privacy.html">Ampliply master privacy policy</a>, which forms part of this
+        document.</p>
+      <p>Questions about this app specifically: <a href="mailto:support@ampliply.com?subject=Unplug%20privacy">support@ampliply.com</a>.</p>
+      <hr>
+      <p class="dim">Last updated {{UPDATED}}</p>
+    </div>
+  </div>
+</section>

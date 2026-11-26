@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108" role="img" aria-label="Unplug: Auto Offline icon">
+  <defs>
+    <linearGradient id="ub" x1="0" y1="0" x2="108" y2="108" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#312E81"/><stop offset="1" stop-color="#0F766E"/>
+    </linearGradient>
+  </defs>
+  <rect width="108" height="108" rx="26" fill="url(#ub)"/>
+  <path fill="#FFFFFF" d="M52,30 A24,24 0 1,0 74.2,63.2 A20,20 0 0,1 52,30 Z"/>
+  <path fill="#FDE68A" d="M69,38 l2,5 5,2 -5,2 -2,5 -2,-5 -5,-2 5,-2z"/>
+</svg>

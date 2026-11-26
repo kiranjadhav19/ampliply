@@ -1,0 +1,146 @@
+<section class="section page-head">
+  <div class="aura" aria-hidden="true"></div>
+  <div class="container">
+    <p class="crumbs"><a href="{{BASE}}index.html">Ampliply</a><span>/</span><a href="{{BASE}}privacy.html">Privacy</a><span>/</span>TV Remote for Samsung Smart TV</p>
+    <span class="eyebrow">App privacy supplement</span>
+    <h1>Privacy policy: TV Remote for Samsung Smart TV</h1>
+    <p class="lede measure">What this specific app stores, which permissions it uses and why. It sits alongside the
+      <a href="{{BASE}}privacy.html" style="color:var(--accent-text)">Ampliply master privacy policy</a>, which covers
+      advertising, your rights and everything common to our apps.</p>
+    <p class="dim">Last updated {{UPDATED}} &middot; Package <code>com.kiranjadhav.tvremote</code></p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container doc">
+    <aside class="toc" aria-label="On this page">
+      <p>On this page</p>
+      <ol>
+        <li><a href="#summary">Summary</a></li>
+        <li><a href="#device">What is stored on your phone</a></li>
+        <li><a href="#network">What travels on your network</a></li>
+        <li><a href="#permissions">Permissions</a></li>
+        <li><a href="#ads">Advertising</a></li>
+        <li><a href="#safety">Play Data safety</a></li>
+        <li><a href="#delete">Deleting your data</a></li>
+        <li><a href="#master">Master policy</a></li>
+      </ol>
+    </aside>
+
+    <div class="prose">
+      <div class="callout">
+        <p><strong>The point of this app is that it does not need the internet.</strong> It talks to your television
+          across your own home network. Your key presses go from your phone to your TV and no further &mdash; there is no
+          cloud relay, no account and no server of ours in the path.</p>
+      </div>
+
+      <h2 id="summary">Summary</h2>
+      <table>
+        <thead><tr><th>Question</th><th>Answer</th></tr></thead>
+        <tbody>
+          <tr><td>Does it know what I watch?</td><td>No. It sends key presses; it does not read the channel, the programme or the app on screen.</td></tr>
+          <tr><td>Does my TV&rsquo;s address leave my phone?</td><td>No. Saved TVs stay in the app&rsquo;s private storage.</td></tr>
+          <tr><td>Is there an account?</td><td>No, and there is no sign&#8209;in to skip.</td></tr>
+          <tr><td>Does anything leave the device at all?</td><td>Only advertising requests to Google, described below.</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="device">What is stored on your phone</h2>
+      <p>All of it lives in the app&rsquo;s private storage, inside Android&rsquo;s per&#8209;app sandbox. None of it is transmitted
+        to us or to anyone else.</p>
+      <table>
+        <thead><tr><th>What</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td>The TVs you have connected to &mdash; the name the TV reports, its local IP address and MAC address</td><td>So the app can reconnect without you searching again, and can send a Wake&#8209;on&#8209;LAN packet to power the TV on</td></tr>
+          <tr><td>The pairing token your TV issues the first time you allow the app</td><td>So your TV does not ask you to allow the app again on every connection</td></tr>
+          <tr><td>Which saved TV was used last</td><td>So the app opens straight onto the right remote</td></tr>
+          <tr><td>Your preferences &mdash; haptics on or off, volume&#8209;button behaviour, and similar</td><td>So the app behaves the way you set it</td></tr>
+          <tr><td>Your advertising consent answer, where the consent form applies</td><td>Recorded by Google&rsquo;s User Messaging Platform so you are not asked repeatedly</td></tr>
+        </tbody>
+      </table>
+      <p>A local IP address, a MAC address and a pairing token are device identifiers for equipment inside your home.
+        Because they are never transmitted off your phone, they are not &ldquo;collected&rdquo; under Google Play&rsquo;s definition
+        &mdash; but we list them here so you know exactly what the app holds.</p>
+
+      <h2 id="network">What travels on your network</h2>
+      <p>Two kinds of traffic, and they are easy to separate:</p>
+      <ul>
+        <li><strong>To your TV, on your local network.</strong> Discovery messages used to find Samsung televisions on
+          the network, a WebSocket connection to the TV for key presses, and a Wake&#8209;on&#8209;LAN packet when you power the
+          TV on. All of this stays inside your network. The TV&rsquo;s connection is TLS&#8209;protected and the app pins the
+          certificate it expects.</li>
+        <li><strong>To Google, over the internet.</strong> Advertising requests, and the consent form where it applies.
+          Nothing else.</li>
+      </ul>
+      <p>There is no third destination. The app has no telemetry endpoint, no update check of its own and no
+          &ldquo;phone home&rdquo; on launch.</p>
+
+      <h2 id="permissions">Permissions and why each one exists</h2>
+      <table>
+        <thead><tr><th>Permission</th><th>Why the app needs it</th></tr></thead>
+        <tbody>
+          <tr><td><code>INTERNET</code></td><td>To reach your TV on the local network, and to load ads</td></tr>
+          <tr><td><code>ACCESS_NETWORK_STATE</code></td><td>To tell whether you are on a network at all before trying to connect</td></tr>
+          <tr><td><code>ACCESS_WIFI_STATE</code></td><td>To work out the local subnet so discovery knows where to look</td></tr>
+          <tr><td><code>CHANGE_WIFI_MULTICAST_STATE</code></td><td>To send and receive the multicast discovery messages that find Samsung TVs</td></tr>
+          <tr><td><code>AD_ID</code></td><td>Added by the Google Mobile Ads SDK so ads can be served and measured</td></tr>
+        </tbody>
+      </table>
+      <p>That is the complete list. There are no runtime permission prompts, because the app asks for nothing
+        sensitive: no location, no contacts, no storage, no camera, no microphone, no phone state.</p>
+      <div class="callout">
+        <p><strong>On location.</strong> The app never requests location access. It reads your Wi&#8209;Fi subnet to scan
+          for televisions, which is not your location and is not shared. Separately, Google may derive an approximate
+          location from your IP address when serving ads &mdash; that is Google&rsquo;s processing, described in the
+          <a href="{{BASE}}privacy.html#ads">master policy</a>.</p>
+      </div>
+
+      <h2 id="ads">Advertising in this app</h2>
+      <p>The app is free and shows Google AdMob ads: an anchored banner, an occasional full&#8209;screen interstitial and
+        an app&#8209;open ad when you return after being away. The data Google processes for this is listed in the
+        <a href="{{BASE}}privacy.html#ads">master policy</a>, and in the EEA, UK and Switzerland the consent form
+        appears before any personalised advertising.</p>
+      <p>To change your answer later, open <strong>Settings &rarr; Ad privacy choices</strong> in the app.</p>
+      <p>We also pace the ads deliberately, which is a product decision rather than a privacy one but is worth
+        stating: no full&#8209;screen ad while you are pressing buttons, never over pairing, dialogs, settings, help or the
+        TV list, and never two full&#8209;screen ads within ninety seconds of each other.</p>
+
+      <h2 id="safety">How this maps to the Google Play Data safety labels</h2>
+      <p>The declaration on the app&rsquo;s Play listing says data <em>is</em> collected and shared, and that is accurate &mdash;
+        all of it by the AdMob SDK, none of it by us:</p>
+      <table>
+        <thead><tr><th>Data type</th><th>Collected</th><th>Shared</th><th>By whom, and why</th></tr></thead>
+        <tbody>
+          <tr><td>Device or other IDs (advertising ID)</td><td>Yes</td><td>Yes</td><td>Google AdMob &mdash; advertising, analytics, fraud prevention</td></tr>
+          <tr><td>App interactions (ad interactions)</td><td>Yes</td><td>Yes</td><td>Google AdMob &mdash; advertising, measurement</td></tr>
+          <tr><td>Diagnostics (ad SDK errors, performance)</td><td>Yes</td><td>Yes</td><td>Google AdMob &mdash; analytics</td></tr>
+          <tr><td>Approximate location (derived from IP)</td><td>Yes</td><td>Yes</td><td>Google AdMob &mdash; advertising</td></tr>
+          <tr><td>Your saved TVs, tokens and settings</td><td>No</td><td>No</td><td>Stays on your device</td></tr>
+        </tbody>
+      </table>
+      <p>All of it is encrypted in transit. None of it is required for the app&rsquo;s core function to work.</p>
+
+      <h2 id="delete">Deleting your data</h2>
+      <ul>
+        <li><strong>One TV:</strong> open the TV list and tap <em>Forget</em>. Its address and pairing token are
+          removed immediately.</li>
+        <li><strong>Everything:</strong> uninstall the app, or use <strong>Android Settings &rarr; Apps &rarr; TV Remote
+          &rarr; Storage &rarr; Clear data</strong>. Both remove all of the above.</li>
+        <li><strong>Advertising data held by Google:</strong> reset or delete your advertising ID in
+          <strong>Android Settings &rarr; Google &rarr; All services &rarr; Ads</strong>.</li>
+      </ul>
+      <p>Your television may also hold a record that it granted a device access. Clear it from the TV&rsquo;s own
+        settings &mdash; on most Samsung sets, <em>General &rarr; External Device Manager &rarr; Device Connect Manager &rarr;
+        Device List</em>.</p>
+
+      <h2 id="master">The rest of the policy</h2>
+      <p>Your rights, legal bases, retention periods, international transfers, children, security and contact details
+        are all in the <a href="{{BASE}}privacy.html">Ampliply master privacy policy</a>, which forms part of this
+        document.</p>
+      <p>Questions about this app specifically: <a href="mailto:support@ampliply.com?subject=TV%20Remote%20privacy">support@ampliply.com</a>.</p>
+      <hr>
+      <p class="dim">This app is not an official Samsung application and is not affiliated with, endorsed by or
+        sponsored by Samsung Electronics Co.,&nbsp;Ltd. &middot; Last updated {{UPDATED}}</p>
+    </div>
+  </div>
+</section>

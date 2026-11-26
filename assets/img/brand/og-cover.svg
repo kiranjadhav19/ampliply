@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="g" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#8B74FF"/><stop offset=".5" stop-color="#58D8F0"/><stop offset="1" stop-color="#C8F25C"/>
+    </linearGradient>
+    <linearGradient id="gh" x1="96" y1="400" x2="790" y2="340" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8B74FF"/><stop offset=".48" stop-color="#58D8F0"/><stop offset="1" stop-color="#C8F25C"/>
+    </linearGradient>
+    <linearGradient id="gbar" x1="0" y1="0" x2="1200" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8B74FF"/><stop offset=".5" stop-color="#58D8F0"/><stop offset="1" stop-color="#C8F25C"/>
+    </linearGradient>
+    <radialGradient id="a1" cx="0" cy="0" r="1" gradientTransform="translate(240 120) scale(520)">
+      <stop offset="0" stop-color="#8B74FF" stop-opacity=".45"/><stop offset="1" stop-color="#8B74FF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="a2" cx="0" cy="0" r="1" gradientTransform="translate(1060 540) scale(480)">
+      <stop offset="0" stop-color="#C8F25C" stop-opacity=".3"/><stop offset="1" stop-color="#C8F25C" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#07080C"/>
+  <rect width="1200" height="630" fill="#07080C" opacity=".0"/>
+  <rect width="1200" height="630" fill="url(#a1)"/>
+  <rect width="1200" height="630" fill="url(#a2)"/>
+  <g transform="translate(96 108) scale(1.55)" fill="url(#g)">
+    <rect x="2" y="19" width="6" height="10" rx="3"/>
+    <rect x="11" y="15" width="6" height="18" rx="3"/>
+    <rect x="20" y="11" width="6" height="26" rx="3"/>
+    <rect x="29" y="5" width="6" height="38" rx="3"/>
+    <rect x="38" y="13" width="6" height="22" rx="3"/>
+  </g>
+  <text x="196" y="160" font-family="Avenir Next, Helvetica Neue, Helvetica, sans-serif" font-size="52" font-weight="700" letter-spacing="-2" fill="#F3F5F9">ampliply</text>
+  <text x="96" y="310" font-family="Avenir Next, Helvetica Neue, Helvetica, sans-serif" font-size="74" font-weight="700" letter-spacing="-2.5" fill="#F3F5F9">Small apps that do</text>
+  <text x="96" y="398" font-family="Avenir Next, Helvetica Neue, Helvetica, sans-serif" font-size="74" font-weight="700" letter-spacing="-2.5" fill="url(#gh)">one thing properly.</text>
+  <text x="96" y="476" font-family="Avenir Next, Helvetica Neue, Helvetica, sans-serif" font-size="30" font-weight="500" fill="#A7AFC0">Android utility tools and entertainment apps.</text>
+  <g font-family="Avenir Next, Helvetica Neue, Helvetica, sans-serif" font-size="24" font-weight="600" fill="#C8F25C">
+    <text x="96" y="552">No accounts</text>
+    <text x="300" y="552" fill="#58D8F0">No servers of ours</text>
+    <text x="588" y="552" fill="#8B74FF">No data collected by us</text>
+  </g>
+  <rect x="0" y="618" width="1200" height="12" fill="url(#gbar)"/>
+</svg>

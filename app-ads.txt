@@ -1,0 +1,16 @@
+# Google AdMob app-ads.txt for Ampliply
+#
+# TODO before this file does anything useful:
+#   1. In AdMob, open Settings -> Account information and copy your publisher ID
+#      (it looks like pub-0000000000000000).
+#   2. Replace pub-0000000000000000 on the line below with it, and delete this
+#      comment block and the leading "#" on that line.
+#   3. In each AdMob app, set the developer website to https://ampliply.com and
+#      request a crawl. Google re-crawls this file roughly every 24 hours.
+#   4. Make sure the Google Play listing for every app points at https://ampliply.com
+#      as the developer website, or Google will not find this file.
+#
+# Until the line below is uncommented and filled in, the file is valid but empty,
+# which means no authorised sellers are declared.
+#
+# google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0
