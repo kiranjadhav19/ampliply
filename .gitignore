@@ -13,3 +13,6 @@
 # Local scratch
 *.log
 tmp/
+
+# Firebase Hosting deploy cache
+.firebase/

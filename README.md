@@ -25,6 +25,7 @@ brand/BRANDKIT.md       The written brand kit
 assets/                 css, js, images (brand marks + app screenshots)
 tools/                  Optional builder — see "Editing" below
 CNAME .nojekyll         GitHub Pages
+firebase.json           Firebase Hosting headers, caching and redirects
 netlify.toml            Netlify / Cloudflare Pages headers and redirects
 robots.txt sitemap.xml  Search engines
 app-ads.txt             AdMob — needs your publisher ID, see below
@@ -56,56 +57,100 @@ home page, and an entry in `sitemap.xml`.
 
 ## Hosting
 
-Live on **GitHub Pages** from <https://github.com/kiranjadhav19/ampliply> — branch `main`, folder
-root. `CNAME` and `.nojekyll` are in the repository, so every push to `main` redeploys within a
-minute or two. Pages has already picked up `ampliply.com` as the custom domain.
+Two hosts, one source of truth. The repository is
+<https://github.com/kiranjadhav19/ampliply>.
 
-### One thing left: DNS at GoDaddy
+| | Serves | Status |
+|---|---|---|
+| **Firebase Hosting** | `ampliply.com` | To set up — see below |
+| **GitHub Pages** | `kiranjadhav19.github.io/ampliply/` | Live, acts as the backup copy |
 
-`ampliply.com` still points at GoDaddy's parked-page servers, so the domain will not serve the site
-until the records change. In GoDaddy → **My Products → Domains → ampliply.com → DNS**:
+GitHub Pages redeploys on every push to `main` and needs no attention. Firebase is a deliberate
+deploy, which is what gets you the CSP and cache headers in `firebase.json` — headers GitHub Pages
+cannot serve at all.
 
-1. **Delete** the existing `A` record(s) for `@` (they point at `13.248.243.5` and
-   `76.223.105.230`) and any parking/forwarding entry for `@`.
-2. **Add four `A` records** for `@`, one per address:
+### Setting up Firebase Hosting
 
+`firebase.json` is already written: it publishes the repository root, excludes `tools/`, the git
+directory and the host-specific files, sets the same security headers and asset caching as
+`netlify.toml`, and keeps the two `/privacy/` and `/apps/` redirects. `cleanUrls` is deliberately
+**off** so that `/privacy/unplug.html` stays exactly that on every host — those URLs are going into
+Play Console and should not start redirecting.
+
+Sign in to the Google account you want to own this, then:
+
+```bash
+npm install -g firebase-tools
 ```
-A     @    185.199.108.153
-A     @    185.199.109.153
-A     @    185.199.110.153
-A     @    185.199.111.153
+
+```bash
+firebase login
 ```
 
-3. **Replace** the `www` record with a `CNAME`:
-
-```
-CNAME www  kiranjadhav19.github.io
+```bash
+firebase projects:create ampliply-site --display-name "Ampliply"
 ```
 
-Leave `MX` records alone — those are email, and deleting them would break
+```bash
+cd "/Users/admin/Documents/Development/Android Apps/ampliply.com" && firebase use --add
+```
+
+That last one writes `.firebaserc` — pick the project and give it the alias `default`. Then deploy:
+
+```bash
+firebase deploy --only hosting
+```
+
+The site goes live at `ampliply-site.web.app` straight away. Everything stays on the free **Spark**
+plan; no billing account is needed. The free quota is 10 GB of storage and **360 MB of transfer per
+day**, roughly 1,200 full page views — worth keeping an eye on, because Firebase serves an error
+page rather than throttling once a day's quota is gone.
+
+### Pointing ampliply.com at Firebase
+
+In the Firebase console → **Hosting → Add custom domain**, enter `ampliply.com` and let it also set
+up the `www` redirect. Firebase then shows you two things to add at GoDaddy
+(**Domains → ampliply.com → DNS**):
+
+1. A `TXT` record to prove you own the domain. Add it, then click Verify.
+2. The `A` record(s) for the apex — usually a single `199.36.158.100`, but **use whatever the
+   console shows you**, not this number.
+
+Before adding those, **delete** the existing `@` `A` records (they point at GoDaddy's parked-page
+addresses `13.248.243.5` and `76.223.105.230`) and any domain-forwarding entry for `@`.
+**Leave the `MX` records alone** — those are email, and removing them breaks
 `support@ampliply.com` later.
 
-Propagation is usually minutes, occasionally a few hours. Check with:
+Check propagation with:
 
-```
+```bash
 dig +short ampliply.com A
 ```
 
-When it returns the four `185.199.*` addresses, go to the repository's **Settings → Pages** and
-tick **Enforce HTTPS**. GitHub issues the Let's Encrypt certificate automatically once DNS
-resolves; the tickbox stays greyed out until then. Do not paste any URL into Play Console before
+Firebase provisions the certificate itself once the records resolve; it can take up to 24 hours,
+and the console shows the state. Do not paste any URL into Play Console until
 `https://ampliply.com` loads.
+
+Last step, once Firebase is serving the domain: remove the custom domain from the GitHub repository
+so it stops claiming `ampliply.com` and reverts to the `github.io` URL as a clean backup.
+
+```bash
+cd "/Users/admin/Documents/Development/Android Apps/ampliply.com" && git rm CNAME && git commit -m "Move the custom domain to Firebase Hosting" && git push
+```
 
 ### Alternatives
 
 **Cloudflare Pages** — connect the repository, leave the build command empty, set the output
 directory to `/`. Add `ampliply.com` as a custom domain; Cloudflare handles the DNS and the
-certificate. Worth switching to if you also want Cloudflare Email Routing for
+certificate, with no transfer cap. Worth it if you also want Cloudflare Email Routing for
 `support@ampliply.com`.
 
 **Netlify** — drag this folder onto the Netlify dashboard, or connect the repository.
-`netlify.toml` already sets security headers, asset caching and two redirects. GitHub Pages
-ignores `netlify.toml`, so the headers in it apply only on Netlify or Cloudflare Pages.
+`netlify.toml` already sets security headers, asset caching and the two redirects.
+
+Note that each host reads only its own config: `firebase.json` on Firebase, `netlify.toml` on
+Netlify and Cloudflare Pages, and GitHub Pages reads neither — it serves the repository as-is.
+
 
 ## Before you go live
 
@@ -124,8 +169,11 @@ ignores `netlify.toml`, so the headers in it apply only on Netlify or Cloudflare
    that file.
 5. **App status.** Every app card says "On Google Play". If one is still in closed testing, change
    that badge before launch.
-6. **`PRIVACY_POLICY_URL`.** In the Unplug project, `app/build.gradle.kts` still points at
-   `https://example.com/unplug/privacy`. Change it to the supplement URL above.
+6. **`PRIVACY_POLICY_URL`.** Done — the Unplug project's `app/build.gradle.kts` now points at
+   `https://ampliply.com/privacy/unplug.html`. It needs a rebuild to take effect, and the link
+   will 404 until the domain is live. TV Remote renders its policy in-app from
+   `ui/screens/PrivacyPolicy.kt`, so it has no URL to set; its `store/` docs still say "your
+   hosted URL" in a couple of places.
 
 ## Editing
 
